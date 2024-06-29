@@ -8,86 +8,93 @@
 <body style="margin: 0px; overflow: hidden;">
 
   <script>
-
     AFRAME.registerComponent('registerevents', {
-        init: function () 
-        {
-            let marker = this.el;
-            marker.visible = false;
+      init: function () {
+        let marker = this.el;
+        marker.visible = false;
 
-            marker.addEventListener('markerFound', function() {
-                marker.visible = true;
-                let followerPlane = document.querySelector("#followerPlane" + marker.id);
-                followerPlane.setAttribute("visible", "true"); 
-            });
+        marker.addEventListener('markerFound', function() {
+          marker.visible = true;
+          let followerPlane = document.querySelector("#followerPlane" + marker.id);
+          followerPlane.setAttribute("visible", "true"); 
+        });
 
-            marker.addEventListener('markerLost', function() {
-                marker.visible = false;
-                let followerPlane = document.querySelector("#followerPlane" + marker.id);
-                followerPlane.setAttribute("color", "red");
-            });
+        marker.addEventListener('markerLost', function() {
+          marker.visible = false;
+          let followerPlane = document.querySelector("#followerPlane" + marker.id);
+          followerPlane.setAttribute("color", "red");
+        });
 
-            this.p = new THREE.Vector3();
-            this.q = new THREE.Quaternion();
-            this.s = new THREE.Vector3();   
-        },
-        
-        tick: function (time, deltaTime) 
-        {
-            let marker = this.el;
-            let follower = document.querySelector("#follower" + marker.id);
-            let followerPlane = document.querySelector("#followerPlane" + marker.id);
-            let lerpAmount = 0.5;
+        this.p = new THREE.Vector3();
+        this.q = new THREE.Quaternion();
+        this.s = new THREE.Vector3();   
+      },
+      
+      tick: function (time, deltaTime) {
+        let marker = this.el;
+        let follower = document.querySelector("#follower" + marker.id);
+        let followerPlane = document.querySelector("#followerPlane" + marker.id);
+        let lerpAmount = 0.5;
 
-            if (marker.visible)
-            {
-                marker.object3D.getWorldPosition(this.p);
-                marker.object3D.getWorldQuaternion(this.q);
-                marker.object3D.getWorldScale(this.s);
+        if (marker.visible) {
+          marker.object3D.getWorldPosition(this.p);
+          marker.object3D.getWorldQuaternion(this.q);
+          marker.object3D.getWorldScale(this.s);
 
-                follower.object3D.position.lerp(this.p, lerpAmount);
-                follower.object3D.quaternion.slerp(this.q, lerpAmount);
-                follower.object3D.scale.lerp(this.s, lerpAmount);
-                
-                followerPlane.setAttribute("color", "green");
-            } 
+          follower.object3D.position.copy(this.p);
+          follower.object3D.quaternion.copy(this.q);
+          follower.object3D.scale.copy(this.s);
+
+          followerPlane.setAttribute("color", "green");
+        } else {
+          // Keep the last known position, rotation, and scale
+          follower.object3D.position.lerp(this.p, lerpAmount);
+          follower.object3D.quaternion.slerp(this.q, lerpAmount);
+          follower.object3D.scale.lerp(this.s, lerpAmount);
         }
+      }
     });
-
   </script>
 
-<a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
-  <a-marker type="barcode" value="6" id="m6" registerevents></a-marker>
-  <a-marker type="barcode" value="4" id="m4" registerevents></a-marker>
-  
-  <!-- Add the blue sphere at the global scene origin -->
-  <a-sphere position="0 0 0" radius="5" color="blue"></a-sphere>
+  <a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+    <a-marker type="barcode" value="7" id="m7" registerevents></a-marker>
+    <a-marker type="barcode" value="6" id="m6" registerevents></a-marker>
+    <a-marker type="barcode" value="4" id="m4" registerevents></a-marker>
+    
+    <!-- Add the blue sphere at the global scene origin -->
+    <a-sphere position="0 0 0" radius="5" color="blue"></a-sphere>
 
-  <!-- 
-      Separate follower entities for each marker
-  -->
-  <a-entity id="followerm6" active="0">
+    <!-- Separate follower entities for each marker -->
+    <a-entity id="followerm7">
+      <a-plane id="followerPlanem7"
+               position="0 0 0"
+               rotation="-90 0 0"
+               color="red"
+               material="src:#grid; transparent: true; opacity: 0.90; side:double;"
+               visible="false">
+      </a-plane>
+    </a-entity>
+    <a-entity id="followerm6">
       <a-plane id="followerPlanem6"
-             position="0 0 0"
-             rotation="-90 0 0"
-             color="red"
-             material="src:#grid; transparent: true; opacity: 0.90; side:double;"
-             visible="false">
+               position="0 0 0"
+               rotation="-90 0 0"
+               color="red"
+               material="src:#grid; transparent: true; opacity: 0.90; side:double;"
+               visible="false">
       </a-plane>
-  </a-entity>
-  <a-entity id="followerm4" active="0">
+    </a-entity>
+    <a-entity id="followerm4">
       <a-plane id="followerPlanem4"
-             position="0 0 0"
-             rotation="-90 0 0"
-             color="red"
-             material="src:#grid; transparent: true; opacity: 0.90; side:double;"
-             visible="false">
+               position="0 0 0"
+               rotation="-90 0 0"
+               color="red"
+               material="src:#grid; transparent: true; opacity: 0.90; side:double;"
+               visible="false">
       </a-plane>
-  </a-entity>
+    </a-entity>
 
-  <a-entity camera></a-entity>
-  
-</a-scene>
+    <a-entity camera></a-entity>
+  </a-scene>
 
 </body>
 </html>
