@@ -1,107 +1,36 @@
-<!DOCTYPE html>
+<!doctype HTML>
 <html>
-<head>
-  <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
-  <script src="https://raw.githack.com/jeromeetienne/AR.js/2.0.1/aframe/build/aframe-ar.js"></script>
-</head>
+  <head>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-text-geometry-component@0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+  </head>
+  <body style="margin: 0px; overflow: hidden;">
+    <a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+      <!-- 2D text marker -->
+      <a-marker type="barcode" value="6" id="m6" registerevents>
+        <a-plane color="white" rotation="0 0 0" position="1.05 1.5 -0.1" width="2" material="transparent: true; opacity: 0.90"></a-plane>
+        <a-plane color="white" rotation="0 0 0" position="0 1 -0.1" width="0.1" height=" 2" material="transparent: true; opacity: 0.90"></a-plane>
+        <a-text value="Admin" color="red" position="0.1 1.7 0" rotation="0 0 0" align="left" scale="2 2 2"></a-text>
+        <a-text value="Area = 31,340sf" color="red" position="0.1 1.4 0" rotation="0 0 0" align="left" scale="1 1 1"></a-text>
+      </a-marker>
 
-<body style="margin: 0px; overflow: hidden;">
+      <!-- 3D text marker -->
+      <a-marker type="barcode" value="7" id="m7" registerevents>
+        <a-plane color="white" rotation="0 0 0" position="1.05 1.5 -0.1" width="2" material="transparent: true; opacity: 0.90"></a-plane>
+        <a-plane color="white" rotation="0 0 0" position="0 1 -0.1" width="0.1" height=" 2" material="transparent: true; opacity: 0.90"></a-plane>
+        <a-text value="IPU" color="red" position="0.1 1.7 0" rotation="0 0 0" align="left" scale="2 2 2"></a-text>
+        <a-text value="Area = 62,680sf" color="red" position="0.1 1.4 0" rotation="0 0 0" align="left" scale="1 1 1"></a-text>
+      </a-marker>
 
-  <script>
+      <!-- Assets for 3D text -->
+      <a-assets>
+        <a-asset-item id="exoFont" src="https://cdn.aframe.io/fonts/Exo2Bold.fnt"></a-asset-item>
+        <img id="pixels" src="https://cdn.aframe.io/a-painter/images/tex06.png">
+      </a-assets>
 
-    AFRAME.registerComponent('registerevents', {
-        init: function () 
-        {
-            let marker = this.el;
-          
-            marker.visible = false;
-
-            marker.addEventListener('markerFound', function() {
-                marker.visible = true;
-                let followerPlane = document.querySelector("#followerPlane" + marker.id);
-                followerPlane.setAttribute("visible", "true"); 
-            });
-
-            marker.addEventListener('markerLost', function() {
-                marker.visible = false;
-                let followerPlane = document.querySelector("#followerPlane" + marker.id);
-                followerPlane.setAttribute("color", "red");
-            });
-
-            this.p = new THREE.Vector3();
-            this.q = new THREE.Quaternion();
-            this.s = new THREE.Vector3();   
-        },
-        
-        tick: function (time, deltaTime) 
-        {
-            let marker = this.el;
-            let follower = document.querySelector("#follower" + marker.id);
-            let followerPlane = document.querySelector("#followerPlane" + marker.id);
-            let lerpAmount = 0.5;
-
-            if (marker.visible)
-            {
-                marker.object3D.getWorldPosition(this.p);
-                marker.object3D.getWorldQuaternion(this.q);
-                marker.object3D.getWorldScale(this.s);
-
-                follower.object3D.position.lerp(this.p, lerpAmount);
-                follower.object3D.quaternion.slerp(this.q, lerpAmount);
-                follower.object3D.scale.lerp(this.s, lerpAmount);
-                
-                followerPlane.setAttribute("color", "green");
-            } 
-        }
-    });
-
-  </script>
-
-<a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
-  <a-marker type="barcode" value="6" id="m6" registerevents></a-marker>
-  <a-marker type="barcode" value="4" id="m4" registerevents></a-marker>
-  <a-marker type="barcode" value="7" id="m7" registerevents></a-marker>
-  
-  <!-- Add the blue sphere at the global scene origin -->
-  <a-sphere position="0 0 0" radius="5" color="blue"></a-sphere>
-
-  <!-- 
-      Separate follower entities for each marker
-  -->
-  <a-entity id="followerm6" active="0">
-      <a-box id="followerPlanem6"
-             position="0 -0.888 0"
-             rotation="-90 0 0"
-             scale="1.33 1.33 1.33"
-             color="red"
-             material="src:#grid; transparent: true; opacity: 0.90; side:double;"
-             visible="false">
-             
-      </a-box>
-  </a-entity>
-  <a-entity id="followerm4" active="0">
-      <a-plane id="followerPlanem4"
-             position="0 0 0"
-             rotation="-90 0 0"
-             color="red"
-             material="src:#grid; transparent: true; opacity: 0.90; side:double;"
-             visible="false">
-      </a-plane>
-  </a-entity>
-  <a-entity id="followerm7" active="0">
-    <a-box id="followerPlanem7"
-             position="0 -0.888 0"
-             rotation="-90 0 0"
-             scale="1.33 1.33 1.33"
-             color="red"
-             material="src:#grid; transparent: true; opacity: 0.90; side:double;"
-             visible="false">
-    </a-box>
-</a-entity>
-
-  <a-entity camera></a-entity>
-  
-</a-scene>
-
-</body>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
 </html>
