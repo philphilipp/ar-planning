@@ -1,9 +1,28 @@
 <!doctype HTML>
 <html>
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">
-<script src="js/aframe.min.js"></script>
-<script src="js/aframe-ar.js"></script>
-<body style="margin: 0px; overflow: hidden;">
+<head>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <script src="js/aframe.min.js"></script>
+  <script src="js/aframe-ar.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #distanceReadout {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<div id="distanceReadout">Distance: 0</div>
 
 <script>
 
@@ -41,6 +60,8 @@ AFRAME.registerComponent('run', {
         this.cylinder = new THREE.Mesh( geometry, material );
         this.cylinderGroup = document.querySelector('#cylinderGroup').object3D;
         this.cylinderGroup.add( this.cylinder );
+
+        this.distanceReadout = document.getElementById('distanceReadout');
     },
     
     tick: function (time, deltaTime) 
@@ -54,6 +75,9 @@ AFRAME.registerComponent('run', {
             this.cylinderGroup.lookAt( this.p1 );            
             this.cylinder.scale.set(1,1,distance);
             this.cylinder.visible = true;
+
+            // Update the readout with the distance
+            this.distanceReadout.innerHTML = 'Distance: ' + distance.toFixed(2);
         }
         else
         {
@@ -80,8 +104,6 @@ AFRAME.registerComponent('run', {
         <a-sphere radius="0.10" color="red"></a-sphere>
     </a-marker>
     
-    
-
     <a-entity camera></a-entity>
 
     <a-entity run></a-entity>
