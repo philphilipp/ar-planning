@@ -65,25 +65,33 @@ AFRAME.registerComponent('run', {
     },
     
     tick: function (time, deltaTime) 
+{
+    if (markerVisible["m0"] && markerVisible["m1"]) 
     {
-        if ( markerVisible["m0"] && markerVisible["m1"] )
-        {
-            this.m0.object3D.getWorldPosition(this.p0);
-            this.m1.object3D.getWorldPosition(this.p1);
-            
-            let distance = this.p0.distanceTo( this.p1 );
-            this.cylinderGroup.lookAt( this.p1 );            
-            this.cylinder.scale.set(1,1,distance);
-            this.cylinder.visible = true;
+        this.m0.object3D.getWorldPosition(this.p0);
+        this.m1.object3D.getWorldPosition(this.p1);
 
-            // Update the readout with the distance
-            this.distanceReadout.innerHTML = 'Distance: ' + distance.toFixed(2);
-        }
-        else
-        {
-            this.cylinder.visible = false;
-        }
+        // Apply offset to the position of marker m0
+        let offset = new THREE.Vector3(6.5, 0, 2);
+        let p0WithOffset = this.p0.clone().add(offset);
+
+        let distance = p0WithOffset.distanceTo(this.p1);
+        
+        this.cylinderGroup.lookAt(this.p1);            
+        this.cylinder.scale.set(1, 1, distance);
+        this.cylinder.visible = true;
+
+        // Update the readout with the distance
+        this.distanceReadout.innerHTML = 'Distance: ' + distance.toFixed(2);
+    } 
+    else 
+    {
+        this.cylinder.visible = false;
     }
+}
+
+
+
 });
 
 </script>
@@ -95,9 +103,9 @@ AFRAME.registerComponent('run', {
 	</a-assets>
 
     <a-marker type="barcode" value="0" id="m0" registerevents>
-        <a-sphere radius="0.10" color="red"></a-sphere>
+        <a-sphere position="6.5 0 2" radius="0.10" color="red"></a-sphere>
         <!-- this group rotates the cylinder to point at marker m1 -->
-        <a-entity id="cylinderGroup"></a-entity>
+        <a-entity position="6.5 0 2" id="cylinderGroup"></a-entity>
     </a-marker>
 
     <a-marker type="barcode" value="1" id="m1" registerevents>
