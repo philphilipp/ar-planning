@@ -5,7 +5,7 @@
 <script src="js/aframe-ar.js"></script>
 <body style="margin: 0px; overflow: hidden;">
 
-<div id="distanceReadout" style="position: absolute; top: 10px; right: 10px; color: white; background-color: black; padding: 5px; font-family: Arial;">Distance: 0</div>
+<div id="distanceReadout" style="position: absolute; top: 50px; right: 50px; color: white; background-color: black; padding: 5px; font-family: Arial;">Distance: 0</div>
 
 <script>
 // store visibility data in object;
@@ -79,13 +79,13 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup1.lookAt(this.p1);
                 this.cylinder1.scale.set(1, 1, distance1);
-                distanceReadout.innerText = `Distance: ${distance1.toFixed(2)}`;
+                distanceReadout.innerText = `Distance to m1: ${distance1.toFixed(2)}`;
             } 
             else if (markerVisible["m2"]) 
             {
                 this.cylinderGroup1.lookAt(this.p2);
                 this.cylinder1.scale.set(1, 1, distance2);
-                distanceReadout.innerText = `Distance: ${distance2.toFixed(2)}`;
+                distanceReadout.innerText = `Distance to m2: ${distance2.toFixed(2)}`;
             }
             
             this.cylinder1.visible = true;
@@ -108,6 +108,7 @@ AFRAME.registerComponent('run', {
             this.cylinder2.visible = false;
         }
 
+        
         if (markerVisible["m0"] && (markerVisible["m3"] || markerVisible["m4"])) 
         {
             this.m3.object3D.getWorldPosition(this.p3);
