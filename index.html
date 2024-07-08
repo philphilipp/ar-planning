@@ -79,13 +79,19 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup1.lookAt(this.p1);
                 this.cylinder1.scale.set(1, 1, distance1);
+                distance1 = distance1 * 40;
                 distanceReadout.innerText = `Distance to m1: ${distance1.toFixed(2)}`;
+                spherem2.setAttribute("color", "blue");
+                spherem1.setAttribute("color", "red");
             } 
             else if (markerVisible["m2"]) 
             {
                 this.cylinderGroup1.lookAt(this.p2);
                 this.cylinder1.scale.set(1, 1, distance2);
+                distance2 = distance2 * 40;
                 distanceReadout.innerText = `Distance to m2: ${distance2.toFixed(2)}`;
+                spherem2.setAttribute("color", "red");
+                spherem1.setAttribute("color", "blue");
             }
             
             this.cylinder1.visible = true;
@@ -121,13 +127,19 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup3.lookAt(this.p3);
                 this.cylinder3.scale.set(1, 1, distance3);
+                distance3 = distance3 * 40
                 distanceReadout.innerText += `, Distance to m3: ${distance3.toFixed(2)}`;
+                spherem3.setAttribute("color", "red");
+                spherem4.setAttribute("color", "blue");
             } 
             else if (markerVisible["m4"]) 
             {
                 this.cylinderGroup3.lookAt(this.p4);
                 this.cylinder3.scale.set(1, 1, distance4);
+                distance4 = distance4 * 40
                 distanceReadout.innerText += `, Distance to m4: ${distance4.toFixed(2)}`;
+                spherem3.setAttribute("color", "blue");
+                spherem4.setAttribute("color", "red");
             }
             
             this.cylinder3.visible = true;
@@ -160,30 +172,30 @@ AFRAME.registerComponent('run', {
     </a-assets>
 
     <a-marker type="barcode" value="0" id="m0" registerevents>
-        <a-sphere radius="0.10" color="red"></a-sphere>
+        <a-sphere radius="0.10" color="green"></a-sphere>
         <!-- this group rotates the cylinder to point at marker m1 or m2 -->
         <a-entity id="cylinderGroup1"></a-entity>
         <a-entity id="cylinderGroup3"></a-entity>
     </a-marker>
 
     <a-marker type="barcode" value="1" id="m1" registerevents>
-        <a-sphere radius="0.10" color="red"></a-sphere>
+        <a-sphere id= "spherem1" radius="0.10" color="red"></a-sphere>
         <!-- this group rotates the cylinder to point at marker m2 -->
         <a-entity id="cylinderGroup2"></a-entity>
     </a-marker>
 
     <a-marker type="barcode" value="2" id="m2" registerevents>
-        <a-sphere radius="0.10" color="red"></a-sphere>
+        <a-sphere id= "spherem2" radius="0.10" color="red"></a-sphere>
     </a-marker>
 
     <a-marker type="barcode" value="3" id="m3" registerevents>
-        <a-sphere radius="0.10" color="red"></a-sphere>
+        <a-sphere id= "spherem3" radius="0.10" color="red"></a-sphere>
         <!-- this group rotates the cylinder to point at m0 -->
         <a-entity id="cylinderGroup4"></a-entity>
     </a-marker>
 
     <a-marker type="barcode" value="4" id="m4" registerevents>
-        <a-sphere radius="0.10" color="red"></a-sphere>
+        <a-sphere id= "spherem4" radius="0.10" color="red"></a-sphere>
     </a-marker>
 
     <a-entity camera></a-entity>
