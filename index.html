@@ -10,7 +10,7 @@
 <script>
 // store visibility data in object;
 //  can only draw line when both are visible.
-let markerVisible = { m0: false, m1: false, m2: false, m3: false, m4: false };
+let markerVisible = { m0: false, m1: false, m2: false, m3: false, m4: false, m5: false, m6: false, m7: false, m8: false };
 
 AFRAME.registerComponent('registerevents', {
     init: function () 
@@ -35,11 +35,19 @@ AFRAME.registerComponent('run', {
         this.m2 = document.querySelector("#m2");
         this.m3 = document.querySelector("#m3");
         this.m4 = document.querySelector("#m4");
+        this.m5 = document.querySelector("#m5");
+        this.m6 = document.querySelector("#m6");
+        this.m7 = document.querySelector("#m7");
+        this.m8 = document.querySelector("#m8");
         this.p0 = new THREE.Vector3();
         this.p1 = new THREE.Vector3();
         this.p2 = new THREE.Vector3();
         this.p3 = new THREE.Vector3();
         this.p4 = new THREE.Vector3();
+        this.p5 = new THREE.Vector3();
+        this.p6 = new THREE.Vector3();
+        this.p7 = new THREE.Vector3();
+        this.p8 = new THREE.Vector3();
         
         let geometry = new THREE.CylinderGeometry( 0.05, 0.05, 1, 12 );
         geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0.5, 0 ) );
@@ -60,6 +68,22 @@ AFRAME.registerComponent('run', {
         this.cylinder4 = new THREE.Mesh( geometry, material );
         this.cylinderGroup4 = document.querySelector('#cylinderGroup4').object3D;
         this.cylinderGroup4.add( this.cylinder4 );
+
+        this.cylinder5 = new THREE.Mesh( geometry, material );
+        this.cylinderGroup5 = document.querySelector('#cylinderGroup5').object3D;
+        this.cylinderGroup5.add( this.cylinder5 );
+
+        this.cylinder6 = new THREE.Mesh( geometry, material );
+        this.cylinderGroup6 = document.querySelector('#cylinderGroup6').object3D;
+        this.cylinderGroup6.add( this.cylinder6 );
+
+        this.cylinder7 = new THREE.Mesh( geometry, material );
+        this.cylinderGroup7 = document.querySelector('#cylinderGroup7').object3D;
+        this.cylinderGroup7.add( this.cylinder7 );
+
+        this.cylinder8 = new THREE.Mesh( geometry, material );
+        this.cylinderGroup8 = document.querySelector('#cylinderGroup8').object3D;
+        this.cylinderGroup8.add( this.cylinder8 );
         
     },
     
@@ -114,7 +138,6 @@ AFRAME.registerComponent('run', {
             this.cylinder2.visible = false;
         }
 
-        
         if (markerVisible["m0"] && (markerVisible["m3"] || markerVisible["m4"])) 
         {
             this.m3.object3D.getWorldPosition(this.p3);
@@ -127,7 +150,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup3.lookAt(this.p3);
                 this.cylinder3.scale.set(1, 1, distance3);
-                distance3 = distance3 * 40
+                distance3 = distance3 * 40;
                 distanceReadout.innerText += `, Distance to m3: ${distance3.toFixed(2)}`;
                 spherem3.setAttribute("color", "red");
                 spherem4.setAttribute("color", "blue");
@@ -136,7 +159,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup3.lookAt(this.p4);
                 this.cylinder3.scale.set(1, 1, distance4);
-                distance4 = distance4 * 40
+                distance4 = distance4 * 40;
                 distanceReadout.innerText += `, Distance to m4: ${distance4.toFixed(2)}`;
                 spherem3.setAttribute("color", "blue");
                 spherem4.setAttribute("color", "red");
@@ -160,6 +183,102 @@ AFRAME.registerComponent('run', {
         {
             this.cylinder4.visible = false;
         }
+
+        // New section for m5 and m6
+        if (markerVisible["m0"] && (markerVisible["m5"] || markerVisible["m6"])) 
+        {
+            this.m0.object3D.getWorldPosition(this.p0);
+            this.m5.object3D.getWorldPosition(this.p5);
+            this.m6.object3D.getWorldPosition(this.p6);
+            
+            let distance5 = this.p0.distanceTo(this.p5);
+            let distance6 = this.p0.distanceTo(this.p6);
+
+            if (markerVisible["m5"] && (!markerVisible["m6"] || distance5 < distance6)) 
+            {
+                this.cylinderGroup5.lookAt(this.p5);
+                this.cylinder5.scale.set(1, 1, distance5);
+                distance5 = distance5 * 40;
+                distanceReadout.innerText += `, Distance to m5: ${distance5.toFixed(2)}`;
+                spherem6.setAttribute("color", "blue");
+                spherem5.setAttribute("color", "red");
+            } 
+            else if (markerVisible["m6"]) 
+            {
+                this.cylinderGroup5.lookAt(this.p6);
+                this.cylinder5.scale.set(1, 1, distance6);
+                distance6 = distance6 * 40;
+                distanceReadout.innerText += `, Distance to m6: ${distance6.toFixed(2)}`;
+                spherem6.setAttribute("color", "red");
+                spherem5.setAttribute("color", "blue");
+            }
+            
+            this.cylinder5.visible = true;
+        } 
+        else 
+        {
+            this.cylinder5.visible = false;
+        }
+
+        if (markerVisible["m5"] && markerVisible["m6"]) 
+        {
+            let distance7 = this.p5.distanceTo(this.p6);
+            this.cylinderGroup6.lookAt(this.p6);
+            this.cylinder6.scale.set(1, 1, distance7);
+            this.cylinder6.visible = true;
+        } 
+        else 
+        {
+            this.cylinder6.visible = false;
+        }
+
+        // New section for m7 and m8
+        if (markerVisible["m0"] && (markerVisible["m7"] || markerVisible["m8"])) 
+        {
+            this.m0.object3D.getWorldPosition(this.p0);
+            this.m7.object3D.getWorldPosition(this.p7);
+            this.m8.object3D.getWorldPosition(this.p8);
+            
+            let distance7 = this.p0.distanceTo(this.p7);
+            let distance8 = this.p0.distanceTo(this.p8);
+
+            if (markerVisible["m7"] && (!markerVisible["m8"] || distance7 < distance8)) 
+            {
+                this.cylinderGroup7.lookAt(this.p7);
+                this.cylinder7.scale.set(1, 1, distance7);
+                distance7 = distance7 * 40;
+                distanceReadout.innerText += `, Distance to m7: ${distance7.toFixed(2)}`;
+                spherem8.setAttribute("color", "blue");
+                spherem7.setAttribute("color", "red");
+            } 
+            else if (markerVisible["m8"]) 
+            {
+                this.cylinderGroup7.lookAt(this.p8);
+                this.cylinder7.scale.set(1, 1, distance8);
+                distance8 = distance8 * 40;
+                distanceReadout.innerText += `, Distance to m8: ${distance8.toFixed(2)}`;
+                spherem8.setAttribute("color", "red");
+                spherem7.setAttribute("color", "blue");
+            }
+            
+            this.cylinder7.visible = true;
+        } 
+        else 
+        {
+            this.cylinder7.visible = false;
+        }
+
+        if (markerVisible["m7"] && markerVisible["m8"]) 
+        {
+            let distance9 = this.p7.distanceTo(this.p8);
+            this.cylinderGroup8.lookAt(this.p8);
+            this.cylinder8.scale.set(1, 1, distance9);
+            this.cylinder8.visible = true;
+        } 
+        else 
+        {
+            this.cylinder8.visible = false;
+        }
     }
 });
 
@@ -176,26 +295,46 @@ AFRAME.registerComponent('run', {
         <!-- this group rotates the cylinder to point at marker m1 or m2 -->
         <a-entity id="cylinderGroup1"></a-entity>
         <a-entity id="cylinderGroup3"></a-entity>
+        <a-entity id="cylinderGroup5"></a-entity>
+        <a-entity id="cylinderGroup7"></a-entity>
     </a-marker>
 
     <a-marker type="barcode" value="1" id="m1" registerevents>
-        <a-sphere id= "spherem1" radius="0.10" color="red"></a-sphere>
+        <a-sphere id="spherem1" radius="0.10" color="red"></a-sphere>
         <!-- this group rotates the cylinder to point at marker m2 -->
         <a-entity id="cylinderGroup2"></a-entity>
     </a-marker>
 
     <a-marker type="barcode" value="2" id="m2" registerevents>
-        <a-sphere id= "spherem2" radius="0.10" color="red"></a-sphere>
+        <a-sphere id="spherem2" radius="0.10" color="red"></a-sphere>
     </a-marker>
 
     <a-marker type="barcode" value="3" id="m3" registerevents>
-        <a-sphere id= "spherem3" radius="0.10" color="red"></a-sphere>
+        <a-sphere id="spherem3" radius="0.10" color="red"></a-sphere>
         <!-- this group rotates the cylinder to point at m0 -->
         <a-entity id="cylinderGroup4"></a-entity>
     </a-marker>
 
     <a-marker type="barcode" value="4" id="m4" registerevents>
-        <a-sphere id= "spherem4" radius="0.10" color="red"></a-sphere>
+        <a-sphere id="spherem4" radius="0.10" color="red"></a-sphere>
+    </a-marker>
+
+    <a-marker type="barcode" value="5" id="m5" registerevents>
+        <a-sphere id="spherem5" radius="0.10" color="red"></a-sphere>
+        <a-entity id="cylinderGroup6"></a-entity>
+    </a-marker>
+
+    <a-marker type="barcode" value="6" id="m6" registerevents>
+        <a-sphere id="spherem6" radius="0.10" color="red"></a-sphere>
+    </a-marker>
+
+    <a-marker type="barcode" value="7" id="m7" registerevents>
+        <a-sphere id="spherem7" radius="0.10" color="red"></a-sphere>
+        <a-entity id="cylinderGroup8"></a-entity>
+    </a-marker>
+
+    <a-marker type="barcode" value="8" id="m8" registerevents>
+        <a-sphere id="spherem8" radius="0.10" color="red"></a-sphere>
     </a-marker>
 
     <a-entity camera></a-entity>
