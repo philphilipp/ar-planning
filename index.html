@@ -5,7 +5,8 @@
 <script src="js/aframe-ar.js"></script>
 <body style="margin: 0px; overflow: hidden;">
 
-<div id="distanceReadout" style="position: absolute; top: 50px; right: 50px; color: white; background-color: black; padding: 5px; font-family: Arial;">Distance: 0</div>
+<div id="distanceReadout" style="position: absolute; top: 50px; right: 50px; color: white; background-color: black; padding: 5px; font-family: Arial; z-index: 10;">Distance: 0</div>
+<button id="saveButton" style="position: absolute; top: 100px; right: 50px; padding: 10px; font-family: Arial; z-index: 10;">Save JSON</button>
 
 <script>
 // store visibility data in object;
@@ -84,7 +85,37 @@ AFRAME.registerComponent('run', {
         this.cylinder8 = new THREE.Mesh( geometry, material );
         this.cylinderGroup8 = document.querySelector('#cylinderGroup8').object3D;
         this.cylinderGroup8.add( this.cylinder8 );
-        
+
+        document.getElementById('saveButton').addEventListener('click', () => {
+            let positions = {};
+            if (markerVisible["m0"]) this.m0.object3D.getWorldPosition(this.p0);
+            if (markerVisible["m1"]) this.m1.object3D.getWorldPosition(this.p1);
+            if (markerVisible["m2"]) this.m2.object3D.getWorldPosition(this.p2);
+            if (markerVisible["m3"]) this.m3.object3D.getWorldPosition(this.p3);
+            if (markerVisible["m4"]) this.m4.object3D.getWorldPosition(this.p4);
+            if (markerVisible["m5"]) this.m5.object3D.getWorldPosition(this.p5);
+            if (markerVisible["m6"]) this.m6.object3D.getWorldPosition(this.p6);
+            if (markerVisible["m7"]) this.m7.object3D.getWorldPosition(this.p7);
+            if (markerVisible["m8"]) this.m8.object3D.getWorldPosition(this.p8);
+
+            if (markerVisible["m0"]) positions.m0 = { x: this.p0.x, y: this.p0.y, z: this.p0.z };
+            if (markerVisible["m1"]) positions.m1 = { x: this.p1.x, y: this.p1.y, z: this.p1.z };
+            if (markerVisible["m2"]) positions.m2 = { x: this.p2.x, y: this.p2.y, z: this.p2.z };
+            if (markerVisible["m3"]) positions.m3 = { x: this.p3.x, y: this.p3.y, z: this.p3.z };
+            if (markerVisible["m4"]) positions.m4 = { x: this.p4.x, y: this.p4.y, z: this.p4.z };
+            if (markerVisible["m5"]) positions.m5 = { x: this.p5.x, y: this.p5.y, z: this.p5.z };
+            if (markerVisible["m6"]) positions.m6 = { x: this.p6.x, y: this.p6.y, z: this.p6.z };
+            if (markerVisible["m7"]) positions.m7 = { x: this.p7.x, y: this.p7.y, z: this.p7.z };
+            if (markerVisible["m8"]) positions.m8 = { x: this.p8.x, y: this.p8.y, z: this.p8.z };
+
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(positions));
+            let downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "marker_positions.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        });
     },
     
     tick: function (time, deltaTime) 
