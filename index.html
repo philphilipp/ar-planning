@@ -138,7 +138,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup1.lookAt(this.p1);
                 this.cylinder1.scale.set(1, 1, distance1);
-                distance1 = distance1 * 40 * 500 / 1000;
+                distance1 = ((distance1 * 40 * 500 / 1000) + 108) /1.5;
                 distanceReadout.innerText = `Time to m1: ${distance1.toFixed(2)}s`;
                 spherem2.setAttribute("color", "blue");
                 spherem1.setAttribute("color", "red");
@@ -147,7 +147,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup1.lookAt(this.p2);
                 this.cylinder1.scale.set(1, 1, distance2);
-                distance2 = distance2 * 500 / 1000;
+                distance2 = ((distance2 * 40 * 500 / 1000) + 108) /1.5;
                 distanceReadout.innerText = `Time to m2: ${distance2.toFixed(2)}s`;
                 spherem2.setAttribute("color", "red");
                 spherem1.setAttribute("color", "blue");
@@ -185,7 +185,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup3.lookAt(this.p3);
                 this.cylinder3.scale.set(1, 1, distance3);
-                distance3 = distance3 * 40 * 500 / 1000;
+                distance3 = ((distance3 * 40 * 500 / 1000) + 108) /1.5;
                 distanceReadout.innerText += `, Time to m3: ${distance3.toFixed(2)}s`;
                 spherem3.setAttribute("color", "red");
                 spherem4.setAttribute("color", "blue");
@@ -194,7 +194,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup3.lookAt(this.p4);
                 this.cylinder3.scale.set(1, 1, distance4);
-                distance4 = distance4 * 40 * 500 / 1000;
+                distance4 = ((distance4 * 40 * 500 / 1000) + 108) /1.5;
                 distanceReadout.innerText += `, Time to m4: ${distance4.toFixed(2)}s`;
                 spherem3.setAttribute("color", "blue");
                 spherem4.setAttribute("color", "red");
@@ -233,7 +233,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup5.lookAt(this.p5);
                 this.cylinder5.scale.set(1, 1, distance5);
-                distance5 = distance5 * 40 * 500 / 1000;
+                distance5 = ((distance5 * 40 * 500 / 1000) + 108) /1.5;
                 distanceReadout.innerText += `, Distance to m5: ${distance5.toFixed(2)}s`;
                 spherem6.setAttribute("color", "blue");
                 spherem5.setAttribute("color", "red");
@@ -242,7 +242,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup5.lookAt(this.p6);
                 this.cylinder5.scale.set(1, 1, distance6);
-                distance6 = distance6 * 40 * 500 / 1000;
+                distance6 = ((distance6 * 40 * 500 / 1000) + 108) /1.5;
                 distanceReadout.innerText += `, Distance to m6: ${distance6.toFixed(2)}s`;
                 spherem6.setAttribute("color", "red");
                 spherem5.setAttribute("color", "blue");
@@ -281,7 +281,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup7.lookAt(this.p7);
                 this.cylinder7.scale.set(1, 1, distance7);
-                distance7 = distance7 * 40 * 500 / 1000;
+                distance7 = ((distance7 * 40 * 500 / 1000) + 108) /1.5;
                 distanceReadout.innerText += `, Distance to m7: ${distance7.toFixed(2)}s`;
                 spherem8.setAttribute("color", "blue");
                 spherem7.setAttribute("color", "red");
@@ -290,7 +290,7 @@ AFRAME.registerComponent('run', {
             {
                 this.cylinderGroup7.lookAt(this.p8);
                 this.cylinder7.scale.set(1, 1, distance8);
-                distance8 = distance8 * 40 * 500 / 1000;
+                distance8 = ((distance8 * 40 * 500 / 1000) + 108) /1.5;
                 distanceReadout.innerText += `, Distance to m8: ${distance8.toFixed(2)}s`;
                 spherem8.setAttribute("color", "red");
                 spherem7.setAttribute("color", "blue");
